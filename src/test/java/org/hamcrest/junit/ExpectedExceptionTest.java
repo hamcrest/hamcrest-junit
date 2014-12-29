@@ -60,7 +60,7 @@ public class ExpectedExceptionTest {
                         hasSingleFailure()},
                 {
                         ThrowAssumptionViolatedExceptionButExpectOtherType.class,
-                        hasSingleFailureWithMessage(containsString("Stacktrace was: org.junit.internal.AssumptionViolatedException"))},
+                        hasSingleFailureWithMessage(containsString("Stacktrace was: org.junit.AssumptionViolatedException"))},
                 {ViolateAssumptionAndExpectException.class,
                         hasSingleAssumptionFailure()},
                 {ThrowExpectedAssertionError.class, everyTestRunSuccessful()},
