@@ -76,7 +76,7 @@ public class ExpectedExceptionTest {
                 {ThrowExpectedNullCause.class, everyTestRunSuccessful()},
                 {
                         ThrowUnexpectedCause.class,
-                        hasSingleFailureWithMessage(Matchers.<String>allOf(
+                        hasSingleFailureWithMessage(Matchers.allOf(
                                 startsWith("\nExpected: ("),
                                 containsString("exception with cause is <java.lang.NullPointerException: expected cause>"),
                                 containsString("cause was <java.lang.NullPointerException: an unexpected cause>"),
@@ -323,7 +323,7 @@ public class ExpectedExceptionTest {
 
         @Test
         public void throwExceptionWithMatchingCause() {
-            NullPointerException expectedCause = new NullPointerException("expected cause");
+            Throwable expectedCause = new NullPointerException("expected cause");
 
             thrown.expect(IllegalArgumentException.class);
             thrown.expectMessage("Ack!");
@@ -356,7 +356,7 @@ public class ExpectedExceptionTest {
         public void throwWithCause() {
             thrown.expect(IllegalArgumentException.class);
             thrown.expectMessage("Ack!");
-            thrown.expectCause(is(new NullPointerException("expected cause")));
+            thrown.expectCause(is((Throwable)new NullPointerException("expected cause")));
 
             throw new IllegalArgumentException("Ack!", new NullPointerException("an unexpected cause"));
         }
