@@ -81,6 +81,17 @@ uploadArchives {
                     url 'http://opensource.org/licenses/BSD-3-Clause'
                 }
             }
+
+            developers {
+                developer {
+                    id 'npryce'
+                    name 'Nat Pryce'
+                }
+                developer {
+                    id 'sf105'
+                    name 'Steve Freeman'
+                }
+            }
         }
     }
 }
