@@ -1,7 +1,12 @@
 apply plugin: 'java'
+apply plugin: 'maven'
+apply plugin: 'signing'
+
+archivesBaseName = "hamcrest-junit"
+group = "org.hamcrest"
+version = hasProperty("-version") ? property("-version") : "SNAPSHOT"
 
 sourceCompatibility = "1.7"
-version = '1.1.0.0'
 
 repositories {
     mavenCentral()
@@ -15,5 +20,67 @@ dependencies {
 test {
     filter {
         includeTestsMatching "*Test"
+    }
+}
+
+jar {
+    manifest {
+        attributes 'Implementation-Title': 'hamcrest-junit',
+                'Implementation-Vendor': 'hamcrest.org',
+                'Implementation-Version': version
+    }
+}
+
+task sourcesJar(type: Jar) {
+    classifier = 'sources'
+    from sourceSets.main.allSource
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc
+}
+
+artifacts {
+    archives jar, sourcesJar, javadocJar
+}
+
+
+signing {
+    sign configurations.archives
+}
+
+String publishUsername = hasProperty("ossrhUsername") ? property("ossrhUsername") : ""
+String publishPassword = hasProperty("ossrhPassword") ? property("ossrhPassword") : ""
+
+uploadArchives {
+    repositories.mavenDeployer {
+        beforeDeployment { deployment -> signing.signPom(deployment) }
+
+        repository(url: "https://oss.sonatype.org/service/local/staging/deploy/maven2/") {
+            authentication(userName: publishUsername, password: publishPassword)
+        }
+        snapshotRepository(url: "https://oss.sonatype.org/content/repositories/snapshots/") {
+            authentication(userName: publishUsername, password: publishPassword)
+        }
+
+        pom.project {
+            name 'Hamcrest JUnit'
+            packaging 'jar'
+            description 'Classes to use Hamcrest matchers within JUnit tests'
+            url 'https://github.com/hamcrest/hamcrest-junit'
+
+            scm {
+                connection 'git@github.com:hamcrest/hamcrest-junit.git'
+                url 'https://github.com/hamcrest/hamcrest-junit'
+            }
+
+            licenses {
+                license {
+                    name 'BSD Licence 3'
+                    url 'http://opensource.org/licenses/BSD-3-Clause'
+                }
+            }
+        }
     }
 }
