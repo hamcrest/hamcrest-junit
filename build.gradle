@@ -77,8 +77,8 @@ uploadArchives {
 
             licenses {
                 license {
-                    name 'BSD Licence 3'
-                    url 'http://opensource.org/licenses/BSD-3-Clause'
+                    name 'Eclipse Public License - v 1.0'
+                    url 'http://opensource.org/licenses/EPL-1.0'
                 }
             }
 
