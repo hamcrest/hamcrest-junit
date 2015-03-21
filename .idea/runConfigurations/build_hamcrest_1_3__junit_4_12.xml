@@ -1,11 +1,12 @@
 <component name="ProjectRunConfigurationManager">
-  <configuration default="false" name="build" type="GroovyScriptRunConfiguration" factoryName="Groovy">
+  <configuration default="false" name="build hamcrest-1.3, junit-4.12" type="GroovyScriptRunConfiguration" factoryName="Groovy">
     <module name="hamcrest-junit" />
     <setting name="path" value="file://$PROJECT_DIR$/build.gradle" />
     <setting name="vmparams" value="" />
     <setting name="params" value="clean test jar" />
     <setting name="workDir" value="file://$PROJECT_DIR$" />
     <setting name="debug" value="false" />
+    <env name="hamcrest" value="org.hamcrest:hamcrest-all:1.3" />
     <RunnerSettings RunnerId="Run" />
     <ConfigurationWrapper RunnerId="Run" />
     <method>

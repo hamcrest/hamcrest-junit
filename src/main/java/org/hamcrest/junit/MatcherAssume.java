@@ -1,6 +1,9 @@
 package org.hamcrest.junit;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.junit.internal.Matching;
+import org.hamcrest.junit.internal.MismatchAction;
+import org.junit.AssumptionViolatedException;
 
 /**
  * A set of methods useful for stating assumptions about the conditions in which a test is meaningful.
@@ -17,7 +20,7 @@ import org.hamcrest.Matcher;
  * }
  * </pre>
  * These methods can be used directly: <code>Assume.assumeTrue(...)</code>, however, they
- * read better if they are referenced through static import:<br/>
+ * read better if they are referenced through static import:
  * <pre>
  * import static org.junit.Assume.*;
  *    ...
@@ -45,9 +48,7 @@ public class MatcherAssume {
      * @see JUnitMatchers
      */
     public static <T> void assumeThat(T actual, Matcher<? super T> matcher) {
-        if (!matcher.matches(actual)) {
-            throw new org.junit.AssumptionViolatedException(actual, matcher);
-        }
+        assumeThat("", actual, matcher);
     }
 
     /**
@@ -68,8 +69,11 @@ public class MatcherAssume {
      * @see JUnitMatchers
      */
     public static <T> void assumeThat(String message, T actual, Matcher<? super T> matcher) {
-        if (!matcher.matches(actual)) {
-            throw new org.junit.AssumptionViolatedException(message, actual, matcher);
-        }
+        Matching.checkMatch(message, actual, matcher, new MismatchAction() {
+            @Override
+            public void mismatch(String description) {
+                throw new AssumptionViolatedException(description);
+            }
+        });
     }
 }

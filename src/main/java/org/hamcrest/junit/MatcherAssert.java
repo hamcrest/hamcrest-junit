@@ -3,31 +3,21 @@
 package org.hamcrest.junit;
 
 
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.StringDescription;
+import org.hamcrest.junit.internal.Matching;
+import org.hamcrest.junit.internal.MismatchAction;
 
 public class MatcherAssert {
     public static <T> void assertThat(T actual, Matcher<? super T> matcher) {
         assertThat("", actual, matcher);
     }
     
-    public static <T> void assertThat(String reason, T actual, Matcher<? super T> matcher) {
-        if (!matcher.matches(actual)) {
-            Description description = new StringDescription();
-            description.appendText(reason)
-                       .appendText("\nExpected: ")
-                       .appendDescriptionOf(matcher)
-                       .appendText("\n     but: ");
-            matcher.describeMismatch(actual, description);
-            
-            throw new AssertionError(description.toString());
-        }
-    }
-    
-    public static void assertThat(String reason, boolean assertion) {
-        if (!assertion) {
-            throw new AssertionError(reason);
-        }
+    public static <T> void assertThat(String message, T actual, Matcher<? super T> matcher) {
+        Matching.checkMatch(message, actual, matcher, new MismatchAction() {
+            @Override
+            public void mismatch(String description) {
+                throw new AssertionError(description);
+            }
+        });
     }
 }

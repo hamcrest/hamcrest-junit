@@ -56,7 +56,7 @@ public class JUnitMatchers {
      * @deprecated Please use {@link CoreMatchers#everyItem(Matcher)} instead.
      */
     @Deprecated
-    public static <T> Matcher<Iterable<T>> everyItem(final Matcher<T> elementMatcher) {
+    public static <T> Matcher<Iterable<? extends T>> everyItem(final Matcher<T> elementMatcher) {
         return CoreMatchers.everyItem(elementMatcher);
     }
 

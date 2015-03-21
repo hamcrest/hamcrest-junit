@@ -152,7 +152,7 @@ public class ExpectedException implements TestRule {
      * Adds {@code matcher} to the list of requirements for the cause of
      * any thrown exception.
      */
-    public void expectCause(Matcher<? extends Throwable> expectedCause) {
+    public void expectCause(Matcher<? super Throwable> expectedCause) {
         expect(hasCause(expectedCause));
     }
 

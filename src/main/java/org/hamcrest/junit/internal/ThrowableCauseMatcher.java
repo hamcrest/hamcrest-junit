@@ -1,37 +1,19 @@
 package org.hamcrest.junit.internal;
 
-import org.hamcrest.Description;
-import org.hamcrest.Factory;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeMatcher;
+import org.hamcrest.*;
 
-public class ThrowableCauseMatcher<T extends Throwable> extends
-        TypeSafeMatcher<T> {
-
-    private final Matcher<T> fMatcher;
-
-    public ThrowableCauseMatcher(Matcher<T> matcher) {
-        fMatcher = matcher;
-    }
-
-    public void describeTo(Description description) {
-        description.appendText("exception with cause ");
-        description.appendDescriptionOf(fMatcher);
+public class ThrowableCauseMatcher extends FeatureMatcher<Throwable, Throwable> {
+    public ThrowableCauseMatcher(Matcher<? super Throwable> causeMatcher) {
+        super(causeMatcher, "exception with cause", "cause");
     }
 
     @Override
-    protected boolean matchesSafely(T item) {
-        return fMatcher.matches(item.getCause());
+    protected Throwable featureValueOf(Throwable actual) {
+        return actual.getCause();
     }
 
-    @Override
-    protected void describeMismatchSafely(T item, Description description) {
-        description.appendText("cause ");
-        fMatcher.describeMismatch(item.getCause(), description);
-    }
 
-    @Factory
-    public static <T extends Throwable> Matcher<T> hasCause(final Matcher<T> matcher) {
-        return new ThrowableCauseMatcher<T>(matcher);
+    public static Matcher<Throwable> hasCause(final Matcher<? super Throwable> matcher) {
+        return new ThrowableCauseMatcher(matcher);
     }
 }

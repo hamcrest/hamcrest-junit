@@ -4,7 +4,6 @@ import java.io.PrintWriter;
 import java.io.StringWriter;
 
 import org.hamcrest.Description;
-import org.hamcrest.Factory;
 import org.hamcrest.Matcher;
 
 /**
@@ -42,13 +41,11 @@ public class StacktracePrintingMatcher<T extends Throwable> extends
         return stringWriter.toString();
     }
 
-    @Factory
     public static <T extends Throwable> Matcher<T> isThrowable(
             Matcher<T> throwableMatcher) {
         return new StacktracePrintingMatcher<T>(throwableMatcher);
     }
 
-    @Factory
     public static <T extends Exception> Matcher<T> isException(
             Matcher<T> exceptionMatcher) {
         return new StacktracePrintingMatcher<T>(exceptionMatcher);
