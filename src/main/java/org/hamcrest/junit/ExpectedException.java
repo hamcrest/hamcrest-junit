@@ -10,6 +10,7 @@ import static org.hamcrest.junit.internal.ThrowableMessageMatcher.hasMessage;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import org.junit.AssumptionViolatedException;
 import org.junit.rules.TestRule;
 import org.junit.runners.model.Statement;
 
