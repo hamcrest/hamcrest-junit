@@ -31,6 +31,13 @@ class EventCollector extends RunListener {
                 description.appendValue(numberOfFailures);
                 description.appendText(" failures");
             }
+
+            @Override
+            protected void describeMismatchSafely(EventCollector item,
+                    org.hamcrest.Description description) {
+                description.appendValue(item.fFailures.size());
+                description.appendText(" failures");
+            }
         };
     }
 
@@ -83,6 +90,24 @@ class EventCollector extends RunListener {
             public void describeTo(org.hamcrest.Description description) {
                 description.appendText("has single failure with message ");
                 messageMatcher.describeTo(description);
+            }
+
+            @Override
+            protected void describeMismatchSafely(EventCollector item,
+                    org.hamcrest.Description description) {
+                description.appendText("was ");
+                hasSingleFailure().describeMismatch(item, description);
+                description.appendText(": ");
+                boolean first= true;
+                for (Failure f : item.fFailures) {
+                    if (!first) {
+                        description.appendText(" ,");
+                    }
+                    description.appendText("'");
+                    description.appendText(f.getMessage());
+                    description.appendText("'");
+                    first= false;
+                }
             }
         };
     }
@@ -155,22 +180,12 @@ class EventCollector extends RunListener {
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append(fTestRunsStarted.size());
-        sb.append(" test runs started, ");
-        sb.append(fTestRunsFinished.size());
-        sb.append(" test runs finished, ");
-        sb.append(fTestsStarted.size());
-        sb.append(" tests started, ");
-        sb.append(fTestsFinished.size());
-        sb.append(" tests finished, ");
-        sb.append(fFailures.size());
-        sb.append(" failures, ");
-        sb.append(fAssumptionFailures.size());
-        sb.append(" assumption failures, ");
-        sb.append(fTestsIgnored.size());
-        sb.append(" tests ignored");
-
-        return sb.toString();
+        return fTestRunsStarted.size() + " test runs started, "
+            + fTestRunsFinished.size() + " test runs finished, "
+            + fTestsStarted.size() + " tests started, "
+            + fTestsFinished.size() + " tests finished, "
+            + fFailures.size() + " failures, "
+            + fAssumptionFailures.size() + " assumption failures, "
+            + fTestsIgnored.size() + " tests ignored";
     }
 }

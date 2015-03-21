@@ -1,16 +1,16 @@
-// Copyright 2010 Google Inc. All Rights Reserved.
-
 package org.hamcrest.junit;
 
 import org.junit.Test;
 import org.junit.runners.model.MultipleFailureException;
 
+import java.lang.annotation.AnnotationFormatError;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.junit.MatcherAssert.assertThat;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
@@ -22,18 +22,36 @@ import static org.junit.Assert.fail;
 public class MultipleFailureExceptionTest {
 
     @Test
-    public void assertEmptyDoesNotThrowForEmptyList() throws Throwable {
+    public void assertEmptyDoesNotThrowForEmptyList() throws Exception {
         MultipleFailureException.assertEmpty(Collections.<Throwable>emptyList());
     }
 
-    @Test(expected = ExpectedException.class)
-    public void assertEmptyRethrowsSingleThrowable() throws Throwable {
-        MultipleFailureException.assertEmpty(
-                Collections.<Throwable>singletonList(new ExpectedException("pesto")));
+    @Test
+    public void assertEmptyRethrowsSingleRuntimeException() throws Exception {
+        Throwable exception= new ExpectedException("pesto");
+        List<Throwable> errors= Collections.singletonList(exception);
+        try {
+            MultipleFailureException.assertEmpty(errors);
+            fail();
+        } catch (ExpectedException e) {
+            assertSame(e, exception);
+        }
     }
 
     @Test
-    public void assertEmptyThrowsMutipleFailureExceptionForManyThrowables() throws Throwable {
+    public void assertEmptyRethrowsSingleError() throws Exception {
+        Throwable exception= new AnnotationFormatError("changeo");
+        List<Throwable> errors= Collections.singletonList(exception);
+        try {
+            MultipleFailureException.assertEmpty(errors);
+            fail();
+        } catch (AnnotationFormatError e) {
+            assertSame(e, exception);
+        }
+    }
+
+    @Test
+    public void assertEmptyThrowsMutipleFailureExceptionForManyThrowables() throws Exception {
         List<Throwable> errors = new ArrayList<Throwable>();
         errors.add(new ExpectedException("basil"));
         errors.add(new RuntimeException("garlic"));
