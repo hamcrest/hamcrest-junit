@@ -2,6 +2,8 @@ apply plugin: 'java'
 apply plugin: 'maven'
 apply plugin: 'signing'
 
+apply plugin: 'eclipse'
+
 archivesBaseName = "hamcrest-junit"
 group = "org.hamcrest"
 version = hasProperty("-version") ? property("-version") : "SNAPSHOT"
