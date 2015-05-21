@@ -1,4 +1,16 @@
 #!/bin/sh
+set -e
+
+javac_version=`javac -version 2>&1 | cut -c 7-`
+case ${javac_version} in
+    1.6.0_*)
+        echo building with java ${javac_version}
+        ;;
+    *)
+        echo java 1.6.0 required, found ${javac_version}
+        exit 1
+        ;;
+esac
 
 version=`git describe --always --tags --match 'v*' --dirty="_patched" | cut -c 2-`
-`dirname $0`/gradlew -P-version=$version uploadArchives "$@"
+`dirname $0`/gradlew -P-version=$version uploadArchives `cat ~/.sonatype || true` "$@"
