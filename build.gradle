@@ -6,7 +6,7 @@ archivesBaseName = "hamcrest-junit"
 group = "org.hamcrest"
 version = hasProperty("-version") ? property("-version") : "SNAPSHOT"
 
-sourceCompatibility = "1.7"
+sourceCompatibility = "1.6"
 
 repositories {
     mavenCentral()
