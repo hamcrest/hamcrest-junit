@@ -1,12 +1,15 @@
 #!/bin/sh
+set -e
+
+required_javac_version=1.6.0
 
 javac_version=`javac -version 2>&1 | cut -c 7-`
 case ${javac_version} in
-    1.6.0_*)
+    ${required_javac_version}_*)
         echo building with java ${javac_version}
         ;;
     *)
-        echo ERROR found Java ${javac_version}, requires 1.6.0
+        echo ERROR found Java ${javac_version}, requires ${required_javac_version}
         exit 1
         ;;
 esac
