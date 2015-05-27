@@ -14,5 +14,5 @@ Recommended/compatible version of hamcrest-junit per Hamcrest and JUnit version:
 
 |                      | **JUnit 4.12** |
 |----------------------|---------------:|
-| **Hamcrest 1.3**     | 1.0.0.0        |
+| **Hamcrest 1.3**     | 1.0.0.1        |
 | **Hamcrest 2.0.0.0** | 2.0.0.0        |
