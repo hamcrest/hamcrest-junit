@@ -5,7 +5,6 @@ import org.hamcrest.StringDescription;
 import org.junit.Test;
 
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.junit.MatcherAssert.assertThat;
 import static org.hamcrest.junit.MatcherAssume.assumeThat;
 import static org.junit.Assert.assertTrue;
 
