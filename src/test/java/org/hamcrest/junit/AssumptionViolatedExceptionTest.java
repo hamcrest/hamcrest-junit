@@ -3,8 +3,8 @@ package org.hamcrest.junit;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 import static org.hamcrest.CoreMatchers.notNullValue;
-import static org.junit.Assert.assertThat;
-import static org.junit.Assume.assumeThat;
+import static org.hamcrest.junit.MatcherAssert.assertThat;
+import static org.hamcrest.junit.MatcherAssume.assumeThat;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
@@ -49,50 +49,5 @@ public class AssumptionViolatedExceptionTest {
     public void simpleAssumptionViolatedExceptionDescribesItself() {
         AssumptionViolatedException e = new AssumptionViolatedException("not enough money");
         assertThat(StringDescription.asString(e), is("not enough money"));
-    }
-
-    @Test
-    public void canInitCauseWithInstanceCreatedWithString() {
-      AssumptionViolatedException e = new AssumptionViolatedException("invalid number");
-      Throwable cause = new RuntimeException("cause");
-      e.initCause(cause);
-      assertThat(e.getCause(), is(cause));
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void canSetCauseWithInstanceCreatedWithObjectAndMatcher() {
-      Throwable testObject = new Exception();
-      org.junit.internal.AssumptionViolatedException e
-              = new org.junit.internal.AssumptionViolatedException(
-                      testObject, containsString("test matcher"));
-      assertThat(e.getCause(), is(testObject));
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void canSetCauseWithInstanceCreatedWithAssumptionObjectAndMatcher() {
-      Throwable testObject = new Exception();
-      org.junit.internal.AssumptionViolatedException e
-              = new org.junit.internal.AssumptionViolatedException(
-                      "sample assumption", testObject, containsString("test matcher"));
-      assertThat(e.getCause(), is(testObject));
-    }
-
-    @Test
-    @SuppressWarnings("deprecation")
-    public void canSetCauseWithInstanceCreatedWithMainConstructor() {
-      Throwable testObject = new Exception();
-      org.junit.internal.AssumptionViolatedException e
-              = new org.junit.internal.AssumptionViolatedException(
-                      "sample assumption", false, testObject, containsString("test matcher"));
-      assertThat(e.getCause(), is(testObject));
-    }
-
-    @Test
-    public void canSetCauseWithInstanceCreatedWithExplicitThrowableConstructor() {
-      Throwable cause = new Exception();
-      AssumptionViolatedException e = new AssumptionViolatedException("invalid number", cause);
-      assertThat(e.getCause(), is(cause));
     }
 }
