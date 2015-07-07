@@ -8,39 +8,39 @@ import static org.hamcrest.junit.MatcherAssume.assumeThat;
 
 import org.hamcrest.Matcher;
 import org.hamcrest.StringDescription;
+import org.junit.AssumptionViolatedException;
 import org.junit.Test;
 import org.junit.experimental.theories.DataPoint;
 import org.junit.experimental.theories.Theories;
 import org.junit.experimental.theories.Theory;
-import org.junit.AssumptionViolatedException;
 import org.junit.runner.RunWith;
 
 @RunWith(Theories.class)
 public class AssumptionViolatedExceptionTest {
     @DataPoint
-    public static Object TWO = 2;
+    public static Integer TWO = 2;
 
     @DataPoint
-    public static Matcher<?> IS_THREE = is(3);
+    public static Matcher<Integer> IS_THREE = is(3);
 
     @DataPoint
-    public static Matcher<?> NULL = null;
+    public static Matcher<Integer> NULL = null;
 
     @Theory
-    public void toStringReportsMatcher(Object actual, Matcher<Object> matcher) {
+    public void toStringReportsMatcher(Integer actual, Matcher<Integer> matcher) {
         assumeThat(matcher, notNullValue());
         assertThat(new AssumptionViolatedException(actual, matcher).toString(),
                 containsString(matcher.toString()));
     }
 
     @Theory
-    public void toStringReportsValue(Object actual, Matcher<Object> matcher) {
+    public void toStringReportsValue(Integer actual, Matcher<Integer> matcher) {
         assertThat(new AssumptionViolatedException(actual, matcher).toString(),
                 containsString(String.valueOf(actual)));
     }
 
     @Test
-    public void AssumptionViolatedExceptionDescribesItself() {
+    public void assumptionViolatedExceptionWithMatcherDescribesItself() {
         AssumptionViolatedException e = new AssumptionViolatedException(3, is(2));
         assertThat(StringDescription.asString(e), is("got: <3>, expected: is <2>"));
     }
