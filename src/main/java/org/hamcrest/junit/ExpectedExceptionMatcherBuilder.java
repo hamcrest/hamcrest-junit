@@ -13,9 +13,9 @@ import org.hamcrest.Matcher;
  */
 class ExpectedExceptionMatcherBuilder {
 
-    private final List<Matcher<?>> matchers = new ArrayList<Matcher<?>>();
+    private final List<Matcher<? super Throwable>> matchers = new ArrayList<Matcher<? super Throwable>>();
 
-    void add(Matcher<?> matcher) {
+    void add(Matcher<? super Throwable> matcher) {
         matchers.add(matcher);
     }
 
@@ -31,12 +31,7 @@ class ExpectedExceptionMatcherBuilder {
         if (matchers.size() == 1) {
             return cast(matchers.get(0));
         }
-        return allOf(castedMatchers());
-    }
-
-    @SuppressWarnings({"unchecked", "rawtypes"})
-    private List<Matcher<? super Throwable>> castedMatchers() {
-        return new ArrayList<Matcher<? super Throwable>>((List) matchers);
+        return allOf(matchers);
     }
 
     @SuppressWarnings("unchecked")

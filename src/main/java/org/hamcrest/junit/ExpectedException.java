@@ -170,7 +170,7 @@ public class ExpectedException implements TestRule {
      *     throw e;
      * }</pre>
      */
-    public void expect(Matcher<?> matcher) {
+    public void expect(Matcher<? super Throwable> matcher) {
         matcherBuilder.add(matcher);
     }
 
