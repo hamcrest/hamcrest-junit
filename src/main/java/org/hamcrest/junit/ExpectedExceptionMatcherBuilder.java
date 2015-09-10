@@ -1,7 +1,6 @@
 package org.hamcrest.junit;
 
 import static org.hamcrest.CoreMatchers.allOf;
-import static org.hamcrest.junit.JUnitMatchers.isThrowable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +12,7 @@ import org.hamcrest.Matcher;
  */
 class ExpectedExceptionMatcherBuilder {
 
-    private final List<Matcher<? super Throwable>> matchers = new ArrayList<Matcher<? super Throwable>>();
+    private final List<Matcher<? super Throwable>> matchers = new ArrayList<>();
 
     void add(Matcher<? super Throwable> matcher) {
         matchers.add(matcher);
@@ -23,19 +22,8 @@ class ExpectedExceptionMatcherBuilder {
         return !matchers.isEmpty();
     }
 
-    Matcher<Throwable> build() {
-        return isThrowable(allOfTheMatchers());
-    }
-
-    private Matcher<Throwable> allOfTheMatchers() {
-        if (matchers.size() == 1) {
-            return cast(matchers.get(0));
-        }
+    Matcher<? super Throwable> build() {
         return allOf(matchers);
     }
 
-    @SuppressWarnings("unchecked")
-    private Matcher<Throwable> cast(Matcher<?> singleMatcher) {
-        return (Matcher<Throwable>) singleMatcher;
-    }
 }
