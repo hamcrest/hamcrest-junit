@@ -227,7 +227,7 @@ public class ExpectedExceptionTest {
 
         @Test
         public void throwsMore() {
-            thrown.expect(any(Exception.class));
+            thrown.expect(instanceOf(Exception.class));
             throw new NullPointerException("Ack!");
         }
     }
